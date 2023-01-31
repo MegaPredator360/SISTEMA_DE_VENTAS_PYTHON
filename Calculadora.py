@@ -73,7 +73,7 @@ class MainWindow(PQTW.QWidget):
         lbl_numero1.move(100, 100)                     # Posicion del Label
         lbl_numero1.setFont(PQTG.QFont('Arial', 12))   # Fuente y Tamaño
 
-        txt_numero1 = PQTW.QLineEdit(self)             # Crear Text Box
+        txt_numero1 = PQTW.QLineEdit(self)            # Crear Text Box
         txt_numero1.move(220, 98)
         txt_numero1.resize(200, 25)                    # Tamaño de Text Box
 
