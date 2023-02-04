@@ -2,16 +2,16 @@ import PyQt5.QtSql as PQTSQL
 import sys
 
 SERVER_NAME = 'AARON'
-DATABASE_NAME = 'FRESH_SUPERMARKET'
+DATABASE_NAME = 'BIBLIOTECA_VENTAS'
 USERNAME = ''
 PASSWORD = ''
 
 class GetAndSetClientes:
-    def __init__(self, cedula, nombre, correo, telefono, direccion):
+    def __init__(self, cedula, nombre, telefono, correo, direccion):
         self.cedula = cedula
         self.nombre = nombre
-        self.correo = correo
         self.telefono = telefono
+        self.correo = correo
         self.direccion = direccion
 
 def createConnection():
@@ -33,26 +33,20 @@ def createConnection():
 def InsertarClientes(SetClientes):
     createConnection()
     qry = PQTSQL.QSqlQuery(db)
-    SQL_STATEMENT = "INSERT INTO CLIENTES VALUES (" + SetClientes.cedula + ", '" + SetClientes.nombre + "', '" + SetClientes.correo + "', " + SetClientes.telefono + ", '" + SetClientes.direccion + "')"
+    SQL_STATEMENT = "INSERT INTO CLIENTE VALUES (" + SetClientes.cedula + ", '" + SetClientes.nombre + "', " + SetClientes.telefono + ", '" + SetClientes.correo + "', '" + SetClientes.direccion + "')"
     qry.prepare(SQL_STATEMENT)
     qry.exec()
 
-#def displayData(sqlStatement):
-    #print('processing query...')
-    #qry = PQTSQL.QSqlQuery(db)
-    #qry.prepare(sqlStatement)
-    #qry.exec()
-#
-   #model = PQTSQL.QSqlQueryModel()
-    #model.setQuery(qry)
+def MostrarClientes():
+    createConnection()
+    qry = PQTSQL.QSqlQuery(db)
+    SQL_STATEMENT = "SELECT * FROM CLIENTE"
+    qry.prepare(SQL_STATEMENT)
+    qry.exec()
 
-    #view = PQTSQL.QTableView()
-    #view.setModel(model)
-    #return model    
+    ModeloClientes = PQTSQL.QSqlQueryModel()
+    ModeloClientes.setQuery(qry)
 
-
-    #SQL_STATEMENT = "INSERT INTO CLIENTES xS (3, 'Veronica', 'vero@correo.com', 1, '1')"
-    #displayData(SQL_STATEMENT)
-    #db.close()
+    return ModeloClientes
 
         

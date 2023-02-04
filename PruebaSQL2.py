@@ -1,5 +1,6 @@
 import PyQt5.QtWidgets as PQTW
 import PyQt5.QtGui as PQTG
+import PyQt5.QtCore as PQTC
 import Clientes
 
 class MainWindow(PQTW.QWidget):
@@ -7,9 +8,13 @@ class MainWindow(PQTW.QWidget):
         super().__init__()
 
         def AgregarClientes():
-            SetClientes = Clientes.GetAndSetClientes(str(txt_cedula.text()), str(txt_nombre.text()), str(txt_correo.text()), str(txt_telefono.text()), str(txt_direccion.text()))
-            #Clientes.GSClientes.set_cedula(txt_cedula.text)
+            SetClientes = Clientes.GetAndSetClientes(str(txt_cedula.text()), str(txt_nombre.text()), str(txt_telefono.text()), str(txt_correo.text()), str(txt_direccion.text()))
             Clientes.InsertarClientes(SetClientes)
+
+        def ActualizarTablaClientes():
+            Clientes.MostrarClientes()
+            ActualizarClientes = Clientes.MostrarClientes()
+            dgv_clientes.setModel(ActualizarClientes) 
 
         self.setWindowTitle("Probando Funciones SQL")      # Nombre de Ventana
         self.setFixedSize(600, 700)                        # Tamaño de Ventana (Reajuste deshabilitado) = Ancho, Largo
@@ -72,17 +77,30 @@ class MainWindow(PQTW.QWidget):
         btn_eliminar.setFont(PQTG.QFont('Arial', 12))
         btn_eliminar.resize(80, 30)
 
-        btn_modificar = PQTW.QPushButton('Modificar', self)             # Crear botón
-        btn_modificar.setToolTip('Modificar clientes de la lista')       # Mensaje Hint
+        btn_modificar = PQTW.QPushButton('Modificar', self)    
+        btn_modificar.setToolTip('Modificar clientes de la lista')   
         btn_modificar.move(300, 350)
         btn_modificar.setFont(PQTG.QFont('Arial', 12))
         btn_modificar.resize(80, 30)
 
-        btn_buscar = PQTW.QPushButton('Buscar', self)             # Crear botón
-        btn_buscar.setToolTip('Buscar clientes en la lista')       # Mensaje Hint
+        btn_buscar = PQTW.QPushButton('Buscar', self)        
+        btn_buscar.setToolTip('Buscar clientes en la lista')      
         btn_buscar.move(400, 350)
         btn_buscar.setFont(PQTG.QFont('Arial', 12))
         btn_buscar.resize(80, 30)
+
+        btn_actualizar = PQTW.QPushButton('Actualizar Tabla', self)        
+        btn_actualizar.setToolTip('Actualizar tabla de clientes')       
+        btn_actualizar.move(200, 400)
+        btn_actualizar.setFont(PQTG.QFont('Arial', 12))
+        btn_actualizar.resize(180, 30)
+        btn_actualizar.clicked.connect(ActualizarTablaClientes)
+
+        dgv_clientes = PQTW.QTableView(self)
+        dgv_clientes.move(100, 450)
+        dgv_clientes.resize(380, 220)
+        TablaClientes = Clientes.MostrarClientes()
+        dgv_clientes.setModel(TablaClientes) 
 
         self.show()
 
