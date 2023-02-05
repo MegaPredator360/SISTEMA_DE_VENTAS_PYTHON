@@ -1,6 +1,6 @@
 import PyQt5.QtWidgets as PQTW
 import PyQt5.QtGui as PQTG
-import PyQt5.QtCore as PQTC
+#import PyQt5.QtCore as PQTC
 import Clientes
 
 class MainWindow(PQTW.QWidget):

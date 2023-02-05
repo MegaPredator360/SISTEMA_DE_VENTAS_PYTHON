@@ -40,7 +40,7 @@ def InsertarClientes(SetClientes):
 def MostrarClientes():
     createConnection()
     qry = PQTSQL.QSqlQuery(db)
-    SQL_STATEMENT = "SELECT * FROM CLIENTE"
+    SQL_STATEMENT = "SELECT CLIE_ID AS 'Cedula', CLIE_NOMBRE AS 'Nombre', CLIE_TELEFONO AS 'Telefono', CLIE_CORREO AS 'Correo', CLIE_DIRECCION AS 'Dirección'  FROM CLIENTE"
     qry.prepare(SQL_STATEMENT)
     qry.exec()
 
