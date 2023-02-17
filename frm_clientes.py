@@ -2,16 +2,19 @@ import PyQt5.QtWidgets as PQTW
 import PyQt5.QtGui as PQTG
 import PyQt5.QtCore as PQTC
 import Clientes
+import frm_clientes_agregar
 
 class AlignDelegate(PQTW.QStyledItemDelegate):
     def initStyleOption(self, option, index):
         super(AlignDelegate, self).initStyleOption(option, index)
         option.displayAlignment = PQTC.Qt.AlignCenter
 
-class MainWindow(PQTW.QWidget):
+class MantClie(PQTW.QWidget):
+
     def __init__(self):
         super().__init__()
-
+        
+        self.w = None
         self.setWindowTitle("Mantenimiento Clientes")       # Nombre Ventana
         self.setFixedSize(1000, 700)                        # Tamaño Ventana
 
@@ -52,6 +55,7 @@ class MainWindow(PQTW.QWidget):
         btn_agregar.move(890, 100)
         btn_agregar.setFont(PQTG.QFont('Arial', 12))
         btn_agregar.resize(80, 30)
+        btn_agregar.clicked.connect(self.show_new_window)
 
         btn_editar = PQTW.QPushButton('Editar', self)
         btn_editar.setToolTip('Editar cliente seleccionado de la lista')
@@ -90,12 +94,8 @@ class MainWindow(PQTW.QWidget):
                                     "QHeaderView::section { color:white; background-color: rgb(0, 120, 215); font-weight: normal; border: outset; border-style: outset; }"
                                     "QHeaderView::section:horizontal { font-weight: normal; }"
                                     )
-        
 
-        self.show()
-
-app = PQTW.QApplication([])
-mw = MainWindow()
-
-# Run the App
-app.exec_()
+    def show_new_window(self, checked):
+        if self.w is None:
+            self.w = frm_clientes_agregar.AgreClie()
+        self.w.show()
