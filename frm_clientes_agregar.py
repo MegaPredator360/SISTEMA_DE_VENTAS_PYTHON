@@ -7,9 +7,9 @@ class AgreClie(PQTW.QWidget):
 
         def InsertarClientes():
             # Se validará si hay campos vacios
-            if (txt_agregar_cedula.text() == "" or txt_agregar_nombre.text() == "" or txt_agregar_telefono.text() == "" or txt_agregar_correo.text() == "" or txt_agregar_direccion.text() == ""):
+            if txt_agregar_cedula.text() == "" or txt_agregar_nombre.text() == "" or txt_agregar_telefono.text() == "" or txt_agregar_correo.text() == "" or txt_agregar_direccion.text() == "":
                 mensajeError("Hay uno o más campos vacios")
-            
+                
             else:
                 import frm_clientes
                 import Clientes
@@ -22,9 +22,15 @@ class AgreClie(PQTW.QWidget):
             
                 # Se actualiza la lista de Clientes
                 frm_clientes.MantClie.ActualizarListaClientes(self)
+                
+                # Se muestra un mensaje de exito
+                mensajeExito("El cliente ha sido añadido con exito")
             
                 # Se cierra la ventana
                 self.hide()
+                
+                # Se limpia el contenido de los QLineEdits
+                limpiarTexto()
                 
         def mensajeError(_mensaje):
             msg = PQTW.QMessageBox()
@@ -47,6 +53,24 @@ class AgreClie(PQTW.QWidget):
       
             # Mostrar Mensaje
             retval = msg.exec_()
+            
+        def mensajeExito(_mensaje):
+            
+            msg = PQTW.QMessageBox()
+            msg.setIcon(PQTW.QMessageBox.Information)
+            msg.setText("Información")
+            msg.setInformativeText(_mensaje)
+            msg.setWindowTitle("Información")
+            msg.setStandardButtons(PQTW.QMessageBox.Ok)
+      
+            retval = msg.exec_()
+            
+        def limpiarTexto():
+            txt_agregar_cedula.setText("")
+            txt_agregar_nombre.setText("")
+            txt_agregar_telefono.setText("")
+            txt_agregar_correo.setText("")
+            txt_agregar_direccion.setText("")
 
         self.w = None
         self.setWindowTitle("Agregar Clientes")             # Nombre Ventana
@@ -96,26 +120,33 @@ class AgreClie(PQTW.QWidget):
         txt_agregar_cedula.move(220, 95)
         txt_agregar_cedula.resize(250, 25)
         txt_agregar_cedula.setFont(PQTG.QFont('Arial', 12))
+        # Validar que solo se ingresen números
+        txt_agregar_cedula.setValidator(PQTG.QIntValidator())
 
         txt_agregar_nombre = PQTW.QLineEdit(self)
         txt_agregar_nombre.move(220, 135)
         txt_agregar_nombre.resize(250, 25)
         txt_agregar_nombre.setFont(PQTG.QFont('Arial', 12))
+        # Validar cantidad maxima de caracteres
+        txt_agregar_nombre.setMaxLength(100)
 
         txt_agregar_telefono = PQTW.QLineEdit(self)
         txt_agregar_telefono.move(220, 175)
         txt_agregar_telefono.resize(250, 25)
         txt_agregar_telefono.setFont(PQTG.QFont('Arial', 12))
+        txt_agregar_telefono.setValidator(PQTG.QIntValidator())
 
         txt_agregar_correo = PQTW.QLineEdit(self)
         txt_agregar_correo.move(220, 215)
         txt_agregar_correo.resize(250, 25)
         txt_agregar_correo.setFont(PQTG.QFont('Arial', 12))
+        txt_agregar_correo.setMaxLength(100)
 
         txt_agregar_direccion = PQTW.QLineEdit(self)
         txt_agregar_direccion.move(220, 255)
         txt_agregar_direccion.resize(250, 25)
         txt_agregar_direccion.setFont(PQTG.QFont('Arial', 12))
+        txt_agregar_direccion.setMaxLength(100)
 
         btn_agregar_cliente = PQTW.QPushButton('Agregar', self)
         btn_agregar_cliente.setToolTip('Agregar clientes a la lista')
