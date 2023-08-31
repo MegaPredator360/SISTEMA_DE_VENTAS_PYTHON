@@ -6,7 +6,11 @@ import sys
 class FactVent(PQTW.QWidget):
     def __init__(self):
         super().__init__()
+        
+        # Ventana Cliente
+        self.mantCliente = frm_clientes.MantClie()
 
+        # Ventana Principal
         self.w = None
         self.setWindowTitle("Facturación - Ventas")       # Nombre Ventana
         self.setFixedSize(400, 450)
@@ -19,6 +23,9 @@ class FactVent(PQTW.QWidget):
         btn_agregar.clicked.connect(self.AbrirMantClie)
 
     def AbrirMantClie(self, checked):
-        if self.w is None:
-            self.w = frm_clientes.MantClie()
-        self.w.show()
+        # Si hay no hay una ventana abierta
+        if self.mantCliente.isHidden():
+            # Se abre la ventana de facturación
+            self.mantCliente.show()
+        else:
+            print("Ya hay una ventana abierta")

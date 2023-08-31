@@ -100,8 +100,9 @@ class MantClie(PQTW.QWidget):
                                     )
 
     def AbrirAgregarClientes(self, checked):
-        # Se abre una nueva ventana
+        # Si hay no hay una ventana abierta
         if self.agregarClientes.isHidden():
+            # Se abre una nueva ventana
             self.agregarClientes.show()
         else:
             print("Ya hay una ventana abierta")

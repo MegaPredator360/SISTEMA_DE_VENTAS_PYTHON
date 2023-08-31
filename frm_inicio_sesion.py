@@ -7,6 +7,10 @@ class InicSesi(PQTW.QWidget):
     def __init__(self):
         super().__init__()
 
+        # Ventana Facturación
+        self.facturacion = frm_facturacion.FactVent()
+
+        # Ventana Principal
         self.w = None
         self.setWindowTitle("Inicio de Sesión")       # Nombre Ventana
         self.setFixedSize(400, 450)
@@ -47,11 +51,14 @@ class InicSesi(PQTW.QWidget):
         btn_iniciar.clicked.connect(self.AbrirFacturacion)
 
     def AbrirFacturacion(self, checked):
-        if self.w is None:
-            # Se abre la ventana de facturacion
-            self.w = frm_facturacion.FactVent()
-            
-        self.w.show()
+        # Si hay no hay una ventana abierta
+        if self.facturacion.isHidden():
+            # Se abre la ventana de facturación
+            self.facturacion.show()
+            # Se cierra la ventana de inicio de sesion
+            self.hide()
+        else:
+            print("Ya hay una ventana abierta")
 
 app = PQTW.QApplication(sys.argv)
 w = InicSesi()
