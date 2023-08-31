@@ -6,20 +6,47 @@ class AgreClie(PQTW.QWidget):
         super().__init__() 
 
         def InsertarClientes():
-            import frm_clientes
-            import Clientes
+            # Se validará si hay campos vacios
+            if (txt_agregar_cedula.text() == "" or txt_agregar_nombre.text() == "" or txt_agregar_telefono.text() == "" or txt_agregar_correo.text() == "" or txt_agregar_direccion.text() == ""):
+                mensajeError("Hay uno o más campos vacios")
             
-            # Se crea una clase
-            NuevoCliente = Clientes.GetAndSetClientes(txt_agregar_cedula.text(), txt_agregar_nombre.text(), txt_agregar_telefono.text(), txt_agregar_correo.text(), txt_agregar_direccion.text())
+            else:
+                import frm_clientes
+                import Clientes
             
-            # Se agregar al cliente
-            Clientes.InsertarClientes(NuevoCliente)
+                # Se crea una clase
+                NuevoCliente = Clientes.GetAndSetClientes(txt_agregar_cedula.text(), txt_agregar_nombre.text(), txt_agregar_telefono.text(), txt_agregar_correo.text(), txt_agregar_direccion.text())
             
-            # Se actualiza la lista de Clientes
-            frm_clientes.MantClie.ActualizarListaClientes(self)
+                # Se agregar al cliente
+                Clientes.InsertarClientes(NuevoCliente)
             
-            # Se cierra la ventana
-            self.hide()
+                # Se actualiza la lista de Clientes
+                frm_clientes.MantClie.ActualizarListaClientes(self)
+            
+                # Se cierra la ventana
+                self.hide()
+                
+        def mensajeError(_mensaje):
+            msg = PQTW.QMessageBox()
+            
+            # Icono del Message Box
+            msg.setIcon(PQTW.QMessageBox.Critical)
+  
+            # Titulo del Message Box
+            msg.setText("Ha ocurrido un error")
+            
+            # Mensaje del error
+            msg.setInformativeText(_mensaje)
+      
+            # Titulo de la ventana
+            msg.setWindowTitle("Error")
+      
+            # Botones que apareceran
+            # msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+            msg.setStandardButtons(PQTW.QMessageBox.Ok)
+      
+            # Mostrar Mensaje
+            retval = msg.exec_()
 
         self.w = None
         self.setWindowTitle("Agregar Clientes")             # Nombre Ventana
@@ -96,8 +123,3 @@ class AgreClie(PQTW.QWidget):
         btn_agregar_cliente.setFont(PQTG.QFont('Arial', 12))
         btn_agregar_cliente.resize(80, 30)
         btn_agregar_cliente.clicked.connect(InsertarClientes)
-
-    def show_new_window(self, checked):
-        if self.w is None:
-            print('xd')
-        self.w.show()
