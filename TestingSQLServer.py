@@ -1,48 +1,56 @@
-from PyQt5.QtSql import QSqlDatabase, QSqlQueryModel, QSqlQuery
-from PyQt5.QtWidgets import QTableView, QApplication
-import sys
+from PyQt5.QtSql import QSqlDatabase, QSqlQuery, QSqlQueryModel
+from PyQt5.QtWidgets import QApplication, QTableView
+
+app = QApplication([])
 
 SERVER_NAME = 'AARON'
-DATABASE_NAME = 'AdventureWorks2017'
-USERNAME = ''
-PASSWORD = ''
+DATABASE_NAME = 'BIBLIOTECA_VENTAS'
 
-def createConnection():
-    connString = f'DRIVER={{SQL Server}};'\
-                f'SERVER={SERVER_NAME};'\
-                f'DATABASE={DATABASE_NAME}'
-
+def conexion():
+    connString = f'Driver={{ODBC Driver 18 for SQL Server}};'\
+                f'server={SERVER_NAME};'\
+                f'database={DATABASE_NAME};'\
+                f'trusted_connection=Yes;'\
+                f'TrustServerCertificate=Yes'
+                
     global db
-    db = QSqlDatabase.addDatabase('QODBC')
-    db.setDatabaseName(connString)
-
-    if db.open():
-        print('connect to SQL Server successfully')
+    
+    # Se verificará si ya existe una conexion de SQL Server abierta
+    if QSqlDatabase.contains("qt_sql_default_connection"):
+        # Se mantendrá la conexion de la base de datos
+        db = QSqlDatabase.database("qt_sql_default_connection")
         return True
-    else:
-        print('connection failed')
-        return False
-
-def displayData(sqlStatement):
-    print('processing query...')
-    qry = QSqlQuery(db)
-    qry.prepare(sqlStatement)
-    qry.exec()
-
-    model = QSqlQueryModel()
-    model.setQuery(qry)
-
-    view = QTableView()
-    view.setModel(model)
-    return view    
-
-if __name__=='__main__':
-    app = QApplication(sys.argv)
-
-    if createConnection():
-        SQL_STATEMENT = 'SELECT * FROM Sales.Store'
-        dataView = displayData(SQL_STATEMENT)
-        dataView.show()
         
-    app.exit()
-    sys.exit(app.exec_())
+    else:
+        # Se selecciona el driver para la conexion
+        db = QSqlDatabase.addDatabase('QODBC')
+        db.setDatabaseName(connString)
+        
+        # Si se realiza la conexion
+        if db.open():
+            print("Conexión exitosa")
+            return True
+        
+        else: 
+            print("Error al conectar a la base de datos:", db.lastError().text())
+            return False
+        
+        
+def Datos():
+    if conexion():
+        query_model = QSqlQueryModel()
+
+        query = QSqlQuery()
+        query.prepare("SELECT * FROM CLIENTE")
+        query.exec()
+
+        query_model.setQuery(query)
+
+        table_view = QTableView()
+        table_view.setModel(query_model)
+        table_view.show()
+
+        app.exec_()
+        db.close()
+    
+Datos()

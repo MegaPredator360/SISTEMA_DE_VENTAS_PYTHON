@@ -6,11 +6,20 @@ class AgreClie(PQTW.QWidget):
         super().__init__() 
 
         def InsertarClientes():
-            from frm_clientes import MantClie
+            import frm_clientes
             import Clientes
-            Prueba = MantClie.__init__
-            TablaClientes = Clientes.MostrarClientes()                                      # Variable que contendra el contenido de la tabla del return de la funcion
-            Prueba.dgv_clientes.setModel(TablaClientes)   
+            
+            # Se crea una clase
+            NuevoCliente = Clientes.GetAndSetClientes(txt_agregar_cedula.text(), txt_agregar_nombre.text(), txt_agregar_telefono.text(), txt_agregar_correo.text(), txt_agregar_direccion.text())
+            
+            # Se agregar al cliente
+            Clientes.InsertarClientes(NuevoCliente)
+            
+            # Se actualiza la lista de Clientes
+            frm_clientes.MantClie.ActualizarListaClientes(self)
+            
+            # Se cierra la ventana
+            self.hide()
 
         self.w = None
         self.setWindowTitle("Agregar Clientes")             # Nombre Ventana

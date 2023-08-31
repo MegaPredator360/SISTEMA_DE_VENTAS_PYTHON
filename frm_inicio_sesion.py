@@ -13,7 +13,7 @@ class InicSesi(PQTW.QWidget):
 
         lbl_layer1 = PQTW.QLabel(self)                      # Crear Label     
         lbl_layer1.move(0, 0)                               # Posicion
-        lbl_layer1.resize(400, 450)                        # Tamaño
+        lbl_layer1.resize(400, 450)                         # Tamaño
         lbl_layer1.setStyleSheet("background-color: gray")  # CSS Diseño
 
         lbl_layer2 = PQTW.QLabel(self)
@@ -48,7 +48,9 @@ class InicSesi(PQTW.QWidget):
 
     def AbrirFacturacion(self, checked):
         if self.w is None:
+            # Se abre la ventana de facturacion
             self.w = frm_facturacion.FactVent()
+            
         self.w.show()
 
 app = PQTW.QApplication(sys.argv)

@@ -14,6 +14,10 @@ class MantClie(PQTW.QWidget):
     def __init__(self):
         super().__init__()
         
+        # Ventanas extra
+        self.agregarClientes = frm_clientes_agregar.AgreClie()
+        
+        # Ventana de Mantenimiento de Clientes
         self.w = None
         self.setWindowTitle("Mantenimiento Clientes")       # Nombre Ventana
         self.setFixedSize(1000, 700)                        # Tamaño Ventana
@@ -55,7 +59,7 @@ class MantClie(PQTW.QWidget):
         btn_agregar.move(890, 100)
         btn_agregar.setFont(PQTG.QFont('Arial', 12))
         btn_agregar.resize(80, 30)
-        btn_agregar.clicked.connect(self.show_new_window)
+        btn_agregar.clicked.connect(self.AbrirAgregarClientes)
 
         btn_editar = PQTW.QPushButton('Editar', self)
         btn_editar.setToolTip('Editar cliente seleccionado de la lista')
@@ -74,13 +78,13 @@ class MantClie(PQTW.QWidget):
         txt_buscar_cliente.resize(665, 25)
         txt_buscar_cliente.setFont(PQTG.QFont('Arial', 12))
 
+        global dgv_clientes
         dgv_clientes = PQTW.QTableView(self)
         dgv_clientes.move(30, 170)
         dgv_clientes.resize(940, 500)
         dgv_clientes.verticalHeader().hide()                                            # Ocultar contador de filas
         dgv_clientes.setFont(PQTG.QFont('Arial', 12))
-        TablaClientes = Clientes.MostrarClientes()                                      # Variable que contendra el contenido de la tabla del return de la funcion
-        dgv_clientes.setModel(TablaClientes)                                            # Se le usará la variable anteriormente creada para colocar el contenido a la tabla
+        self.ActualizarListaClientes()
         dgv_clientes.setColumnWidth(0, 100)                                             # Tamaño de Columnas
         dgv_clientes.setColumnWidth(1, 300)
         dgv_clientes.setColumnWidth(2, 120)
@@ -95,7 +99,16 @@ class MantClie(PQTW.QWidget):
                                     "QHeaderView::section:horizontal { font-weight: normal; }"
                                     )
 
-    def show_new_window(self, checked):
-        if self.w is None:
-            self.w = frm_clientes_agregar.AgreClie()
-        self.w.show()
+    def AbrirAgregarClientes(self, checked):
+        # Se abre una nueva ventana
+        if self.agregarClientes.isHidden():
+            self.agregarClientes.show()
+        else:
+            print("Ya hay una ventana abierta")
+
+        
+    def ActualizarListaClientes(self):
+        print("Lista de Clientes cargada")
+        TablaClientes = TablaClientes = Clientes.MostrarClientes()
+        dgv_clientes.setModel(TablaClientes)
+        
