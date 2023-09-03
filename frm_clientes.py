@@ -3,6 +3,7 @@ import PyQt5.QtGui as PQTG
 import PyQt5.QtCore as PQTC
 import Clientes
 import frm_clientes_agregar
+import frm_clientes_modificar
 
 class AlignDelegate(PQTW.QStyledItemDelegate):
     def initStyleOption(self, option, index):
@@ -16,6 +17,7 @@ class MantClie(PQTW.QWidget):
         
         # Ventanas extra
         self.agregarClientes = frm_clientes_agregar.AgreClie()
+        self.modificarClientes = frm_clientes_modificar.ModiClie()
         
         # Ventana de Mantenimiento de Clientes
         self.w = None
@@ -66,6 +68,7 @@ class MantClie(PQTW.QWidget):
         btn_editar.move(800, 100)
         btn_editar.setFont(PQTG.QFont('Arial', 12))
         btn_editar.resize(80, 30)
+        btn_editar.clicked.connect(self.AbrirModificarClientes)
 
         btn_buscar = PQTW.QPushButton('Buscar', self)
         btn_buscar.setToolTip('Buscar cliente en la lista')
@@ -112,4 +115,14 @@ class MantClie(PQTW.QWidget):
         print("Lista de Clientes cargada")
         TablaClientes = TablaClientes = Clientes.MostrarClientes()
         dgv_clientes.setModel(TablaClientes)
+        
+    def AbrirModificarClientes(self, checked):
+        # Si hay no hay una ventana abierta
+        if self.modificarClientes.isHidden():
+            # Se abre una nueva ventana
+            self.modificarClientes.show()
+        else:
+            print("Ya hay una ventana abierta")    
+        
+        
         

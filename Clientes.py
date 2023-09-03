@@ -1,7 +1,7 @@
 import PyQt5.QtSql as PQTSQL
 import sys
 
-SERVER_NAME = 'AARON'
+SERVER_NAME = 'DESKTOP-JH1RFPS'
 DATABASE_NAME = 'BIBLIOTECA_VENTAS'
 USERNAME = ''
 PASSWORD = ''
@@ -16,7 +16,7 @@ class GetAndSetClientes:
         self.direccion = direccion
 
 def createConnection():
-    connString = f'Driver={{ODBC Driver 18 for SQL Server}};'\
+    connString = f'Driver={{ODBC Driver 17 for SQL Server}};'\
                 f'server={SERVER_NAME};'\
                 f'database={DATABASE_NAME};'\
                 f'trusted_connection=Yes;'\
@@ -65,5 +65,14 @@ def MostrarClientes():
         ModeloClientes.setQuery(qry)
         
         return ModeloClientes
+    
+def ModificarClientes(SetClientes):
+    if createConnection():
+        qry = PQTSQL.QSqlQuery(db)
+        SQL_STATEMENT= "UPDATE CLIENTE SET  clie_nombre = '" + SetClientes.nombre + "', clie_telefono= " + SetClientes.telefono + ", clie_correo= '" + SetClientes.correo + "', clie_direccion= '" + SetClientes.direccion + "' WHERE clie_id =" + SetClientes.cedula 
+        qry.prepare(SQL_STATEMENT)
+        qry.exec()
+        db.close()
+            
 
         
